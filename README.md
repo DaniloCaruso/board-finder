@@ -82,9 +82,9 @@ If no devices are found, the script will display:
 ```
 
 ## Supported Platforms
-Linux: Tested on Ubuntu/Debian-based systems.
-macOS: Works on recent versions of macOS.
-Windows: Compatible with Windows 10 and later versions.
+- Linux: Tested on Ubuntu/Debian-based systems.
+- macOS: Works on recent versions of macOS.
+- Windows: Compatible with Windows 10 and later versions.
 
 ## Contributing
 Feel free to submit issues and pull requests to improve the script or add new features!
