@@ -43,13 +43,30 @@ def add_alias():
         return
 
     python_executable = os.path.join(VENV_DIR, "bin", "python3") if platform.system() != "Windows" else os.path.join(VENV_DIR, "Scripts", "python.exe")
-    alias_command = f"alias {ALIAS_NAME}='{python_executable} {TARGET_SCRIPT}'\n"
+    alias_command = f"alias {ALIAS_NAME}='{python_executable} {TARGET_SCRIPT}'"
     
-    with open(shell_config_file, "a") as f:
-        f.write(alias_command)
+    # Check if alias already exists in the config file
+    alias_exists = False
+    if os.path.exists(shell_config_file):
+        with open(shell_config_file, "r") as f:
+            content = f.read()
+            if f"alias {ALIAS_NAME}=" in content:
+                alias_exists = True
+                print(f"Alias '{ALIAS_NAME}' already exists in {shell_config_file}")
     
-    print(f"Alias added to {shell_config_file}. Reloading...")
-    subprocess.run(["source", shell_config_file], shell=True)
+    if not alias_exists:
+        with open(shell_config_file, "a") as f:
+            f.write(f"\n{alias_command}\n")
+        print(f"Alias added to {shell_config_file}")
+    else:
+        print(f"Alias '{ALIAS_NAME}' already configured, skipping...")
+    
+    print("Reloading shell configuration...")
+    try:
+        subprocess.run(["/bin/bash", "-c", f"source {shell_config_file}"], check=True)
+        print("Shell configuration reloaded successfully!")
+    except subprocess.CalledProcessError:
+        print(f"Could not reload shell configuration automatically. Please run: source {shell_config_file}")
 
 def install():
     create_directory()
