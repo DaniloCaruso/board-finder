@@ -16,7 +16,7 @@ DEVICE_FAMILIES = {
     "ESP": ["ESP32", "ESP8266"],
     "Raspberry": ["Raspberry Pi"],
     "FTDI": ["FT232R USB UART"],
-    "CH340": ["USB-SERIAL CH340"],
+    "CH340": ["USB-SERIAL CH340", "ch341-uart", "USB Serial", "USB_Serial"],
     "CP210x": ["CP210x UART Bridge"]
 }
 
@@ -29,8 +29,9 @@ def run_command(command):
         return ""
 
 def get_device_family(device_info):
+    device_info = device_info.lower()
     for family, keywords in DEVICE_FAMILIES.items():
-        if any(keyword in device_info for keyword in keywords):
+        if any(keyword.lower() in device_info for keyword in keywords):
             return family
     return "Unknown"
 
